@@ -59,8 +59,10 @@ headers = {
 # ======================
 
 
-# ====== 爬取nt大陆 ======
+# ====== 爬取大陆 ======
+count = 1
 def crawl(path, url, depth=1): # 定义爬取函数
+    global count
     if not os.path.exists(path):
         os.mkdir(path)
     if depth == 0: # 如果爬取深度为0
@@ -96,9 +98,10 @@ def crawl(path, url, depth=1): # 定义爬取函数
         # text = text.strip() # 去掉文本两端的空格
         if len(text): # 如果文本不为空
             print('Text length:', len(text)) # 打印文本长度
-            with open(os.path.join(path, url.replace('/', '_')), 'w+', encoding='utf-8') as f: # 打开文档
+            with open(os.path.join(path, 'chapter-'+str(count)), 'w+', encoding='utf-8') as f: # 打开文档
                 f.write(text) # 写入文本
-                print('Saved to:', os.path.join(path, url.replace('/', '_'))) # 打印文档保存路径
+                print('Saved to:', os.path.join(path, 'num'+str(count))) # 打印文档保存路径
+                count += 1
     else:
         print('Error:', response.status_code)
     # except: # 如果发生异常
