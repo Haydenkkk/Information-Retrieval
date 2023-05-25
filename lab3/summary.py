@@ -91,12 +91,12 @@ class TextSummarizer:
 
 
 
-summarizer = TextSummarizer(top_n_words=5, distance=2, number_sentences=1)
-original_text = "docs/A 4th dose of Covid-19 vaccine will be needed, Pfizer's CEO says, but the company is working on a shot to handle all variants - CNN.txt"
-# 读取文件内容并解码为UTF-8编码
-original_text = open(original_text, 'rb').read().decode(encoding='utf-8')
-# 使用正则表达式将多个连续空白字符替换为单个空格
-original_text = re.sub(r'\s+', ' ', original_text)
-# 调用summarize函数生成摘要
-best_sentence = summarizer.summarize(original_text)
-print(best_sentence)
+# summarizer = TextSummarizer(top_n_words=5, distance=2, number_sentences=1)
+# original_text = "docs/A 4th dose of Covid-19 vaccine will be needed, Pfizer's CEO says, but the company is working on a shot to handle all variants - CNN.txt"
+# # 读取文件内容并解码为UTF-8编码
+# original_text = open(original_text, 'rb').read().decode(encoding='utf-8')
+# # 使用正则表达式将多个连续空白字符替换为单个空格
+# original_text = re.sub(r'\s+', ' ', original_text)
+# # 调用summarize函数生成摘要
+# best_sentence = summarizer.summarize(original_text)
+# print(best_sentence)

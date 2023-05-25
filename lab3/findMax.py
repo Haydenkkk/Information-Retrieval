@@ -1,5 +1,7 @@
 import spacy
 import json
+import re
+from summary import TextSummarizer
 
 # 加载spaCy模型
 nlp = spacy.load("en_core_web_sm")
@@ -8,6 +10,7 @@ nlp = spacy.load("en_core_web_sm")
 with open('CNN_Articels_clean.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
+summarizer = TextSummarizer(top_n_words=5, distance=2, number_sentences=1)
 # 遍历JSON中的每个对象
 for obj in data:
     # 获取"Article text"字段的值
@@ -49,11 +52,12 @@ for obj in data:
     for label, counts in entity_counts.items():
         sorted_counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
         top_tokens[label] = {token: count for token, count in sorted_counts[:2] if count > 1}
-
+    text = re.sub(r'\s+', ' ', text)
+    obj["Summary"] = summarizer.summarize(text)
     # 将处理结果添加到JSON对象中
     obj["Top Tokens"] = top_tokens
     print(f"已处理: {obj['Headline']}")
-    print(f"Top Tokens: {top_tokens}")
+    # print(f"Top Tokens: {top_tokens}")
 # 将更新后的JSON保存到文件
 with open('res.json', 'w', encoding='utf-8') as file:
     json.dump(data, file, indent=4)
