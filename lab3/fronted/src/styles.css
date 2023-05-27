@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
+
+.container {
+  position: relative;
+}
+.logo {
+  width: 200px;
+  margin: 20px auto;
+  display: block;
+}
+
+.results {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  max-width: 90%;
+  z-index: 1;
+}
+
+.result-card {
+  /* background-color: #f8f8f8; */
+  /* border: 1px solid #ddd; */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  text-decoration: none; /* 移除链接的下划线样式 */
+  color: #333; /* 设置链接文字颜色 */
+  display: flex; /* 使用 Flex 布局 */
+  flex-direction: column; /* 垂直布局，标题和匹配率会垂直排列 */
+  align-items: flex-start; /* 左对齐标题和匹配率 */
+
+  animation-name: fadeInWords;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+
+}
+
+.result-card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 悬停时的阴影效果 */
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  /* background-color: rgb(200, 210, 209);  */
+}
+
+
+
+
+
+
+
+.result-title {
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 8px;
+  /* 添加以下样式以限制标题宽度并省略后续内容 */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.result-summary {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin-bottom: 7px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  /* max-height: 40px; */
+}
+.result-summary-container {
+  /* display: flex; */
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.summary-label {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+
+.result-match-rate {
+  font-family: "Google Sans", sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+@keyframes fadeInWords {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-word {
+  display: inline-block;
+  animation-name: fadeIn;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate {
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+#search {
+  width: 450px;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: rgb(112, 112, 112);
+  caret-color: #333;
+}
+.searchbar {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border: rgb(218, 218, 218) solid 1px;
+  border-radius: 3em;
+  width: 552px;
+  height: 42px;
+  box-shadow: 0px 0px 5px rgb(212, 212, 212);
+  margin: 0 auto;
+}
+.mg {
+  margin-right: 10px;
+  height: 25px;
+  margin-left: 15px;
+}
+#search,
+.mcp,
+.mg {
+  vertical-align: middle;
+}
+
+.system-name {
+  letter-spacing: 1px;
+  font-family: "Google Sans", sans-serif;
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+  background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);
+  background-size: 800% 800%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
