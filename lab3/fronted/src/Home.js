@@ -1,39 +1,29 @@
 import React, { useState } from "react";
 import "./styles.css";
-import Searchpng from "./images/search.png";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearch = () => {
-    console.log("Search query:", searchValue);
-    setTimeout(() => {
-      const results = [
-        {
-          title:
-            "There's a shortage of truckers, but TuSimple thinks it has a solution: no driver needed - CNN",
-          summary:
-            "The e-commerce boom has exacerbated a global truck driver shortage, but could autonomous trucks help fix the problem?",
-          matchRate: "90%",
-          url: "https://www.cnn.com/2021/07/14/world/tusimple-autonomous-truck-spc-intl/index.html",
+  const handleSearch = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          title: "Result 2",
-          summary:
-            'Hide Caption 5 of 8 Photos: The robots running our warehousesAlthough not specifically designed for warehouses, Boston Dynamics\' dog-like robot "Spot" can lift objects, pick itself up after a fall, open and walk through doors, and even remind people to practice social distancing.',
-          matchRate: "85%",
-          url: "https://example.com/result2",
-        },
-        {
-          title: "Result 3",
-          summary: "Summary of result 3",
-          matchRate: "80%",
-          url: "https://example.com/result3",
-        },
-      ];
-      setSearchResults(results);
-    }, 10);
+        body: JSON.stringify({ query: searchValue }), // 将搜索词作为请求体发送给后端
+      });
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+      const results = await response.json(); // 解析返回的JSON结果
+      setSearchResults(results); // 更新搜索结果状态
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -65,7 +55,16 @@ const Home = () => {
     <div className="container">
       <div className="system-name">Information Retrieval System</div>
       <div className="searchbar">
-        <img src={Searchpng} className="mg" onClick={handleSearch} />
+        {/* <img src={Searchpng} className="mg" onClick={handleSearch} /> */}
+        <IconButton
+          type="button"
+          sx={{ p: "10px" }}
+          aria-label="search"
+          className="mg"
+          onClick={handleSearch}
+        >
+          <SearchIcon />
+        </IconButton>
         <input
           type="text"
           id="search"
@@ -73,7 +72,13 @@ const Home = () => {
           placeholder="Search the information you want or type a URL"
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={handleKeyDown}
+          autocomplete="off"
           name="keyword"
+          style={{
+            fontSize: "16px",
+            fontFamily: "Roboto",
+            letterSpacing: "0.25px",
+          }}
         />
       </div>
       {searchResults.length > 0 && (

@@ -12,7 +12,7 @@
 
 .results {
   position: fixed;
-  top: 35%;
+  top: 33.5%;
   left: 50%;
   transform: translateX(-50%);
   width: 600px;
@@ -22,6 +22,7 @@
 
 .result-card {
   /* background-color: #f8f8f8; */
+  box-shadow: 1px 2px 4px rgba(0.1, 0.1, 0.1, 0.1);
   /* border: 1px solid #ddd; */
   border-radius: 5px;
   padding: 10px;
@@ -36,7 +37,6 @@
   animation-name: fadeInWords;
   animation-duration: 1s;
   animation-fill-mode: both;
-
 }
 
 .result-card:hover {
@@ -45,12 +45,6 @@
   transform: scale(1.1);
   /* background-color: rgb(200, 210, 209);  */
 }
-
-
-
-
-
-
 
 .result-title {
   font-family: "Roboto", sans-serif;
@@ -83,9 +77,9 @@
 .summary-label {
   font-family: "Roboto", sans-serif;
   font-size: 14px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
+  margin-bottom: 5px;
 }
-
 
 .result-match-rate {
   font-family: "Google Sans", sans-serif;
@@ -139,6 +133,7 @@
   caret-color: #333;
 }
 .searchbar {
+  font-family: "Roboto", sans-serif;
   position: fixed;
   top: 25%;
   left: 50%;
@@ -150,10 +145,10 @@
   height: 42px;
   box-shadow: 0px 0px 5px rgb(212, 212, 212);
   margin: 0 auto;
-}
+} 
 .mg {
   margin-right: 10px;
-  height: 25px;
+  height: 40px;
   margin-left: 15px;
 }
 #search,
@@ -166,7 +161,7 @@
   letter-spacing: 1px;
   font-family: "Google Sans", sans-serif;
   position: fixed;
-  top: 15%;
+  top: 12%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 32px;

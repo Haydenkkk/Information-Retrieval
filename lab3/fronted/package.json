@@ -11,6 +11,7 @@
     "@material-ui/core": "4.12.4",
     "@material-ui/icons": "4.11.3",
     "@mui/material": "latest",
+    "@mui/icons-material": "latest",
     "@uiw/react-amap": "4.5.2",
     "loader-utils": "3.2.1",
     "react": "18.2.0",
