@@ -1,4 +1,3 @@
-import re
 import nltk
 import string
 import heapq
@@ -13,6 +12,7 @@ class TextSummarizer:
         self.number_sentences = number_sentences
         # 加载英语停用词列表
         self.stopwords = nltk.corpus.stopwords.words('english')
+        self.stopwords = self.stopwords + ['cnn','new','Caption','Photos','Hide']
 
     def preprocessing(self,text):
         # 将文本转换为小写

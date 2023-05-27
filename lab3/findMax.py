@@ -1,7 +1,7 @@
 import spacy
 import json
 import re
-from summary import TextSummarizer
+from Luhn import TextSummarizer
 
 # 加载spaCy模型
 nlp = spacy.load("en_core_web_sm")
@@ -10,7 +10,7 @@ nlp = spacy.load("en_core_web_sm")
 with open('CNN_Articels_clean.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
-summarizer = TextSummarizer(top_n_words=5, distance=2, number_sentences=1)
+summarizer = TextSummarizer(top_n_words=3, distance=2, number_sentences=1)
 # 遍历JSON中的每个对象
 for obj in data:
     # 获取"Article text"字段的值
