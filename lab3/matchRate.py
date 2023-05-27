@@ -79,7 +79,16 @@ class TokenAnalyzer:
         
         # 根据 token_counts 进行排序，获取最大的 50 个对象
         sorted_objs = sorted(top_objs, key=lambda x: x[1], reverse=True)[:50]
-
+        if len(sorted_objs) <= 3:
+            for obj, token_counts in sorted_objs:
+                result = {
+                    'title': obj["Second headline"],
+                    'summary': obj['Summary'],
+                    'matchRate': "{:.2%}".format(min(1.0,token_counts/(len(keywords)*9.6))),
+                    'url': obj['Url']
+                }
+                results.append(result)
+            return results
         # 计算匹配率权重
         max_token_counts = max([count for _, count in sorted_objs])
         weights = [math.exp(token_counts / max_token_counts) for _, token_counts in sorted_objs]
@@ -90,7 +99,7 @@ class TokenAnalyzer:
         for (obj, token_counts), weight in zip(sorted_objs, normalized_weights):
             match_rate = self.calculate_match_rate(keywords, obj['Summary'])
             # 综合考虑 match_rate 和 token_counts 权重，并确保最终的 matchRate 不超过 100%
-            match_rate = min(1.0, match_rate*weight*100) if match_rate > 0 else min(1.0, weight*4.5)
+            match_rate = min(1.0, match_rate*weight*100) if match_rate > 0 else min(1.0, weight*3.5)
             
             result = {
                 'title': obj["Second headline"],

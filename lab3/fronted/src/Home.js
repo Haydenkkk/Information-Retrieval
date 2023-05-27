@@ -75,7 +75,7 @@ const Home = () => {
           type="text"
           id="search"
           value={searchValue}
-          placeholder="Search the information you want or type a URL"
+          placeholder="Enter the information you want to search here"
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={handleKeyDown}
           autoComplete="off"
