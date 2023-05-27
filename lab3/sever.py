@@ -7,7 +7,6 @@ CORS(app)
 @app.route('/', methods=['POST'])
 def info():
     data = request.get_json()
-    print(data)
     results = [
         {
             'title': "There's a shortage of truckers, but TuSimple thinks it has a solution: no driver needed - CNN",
