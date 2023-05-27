@@ -1,5 +1,6 @@
 import spacy
 import json
+import math
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -69,7 +70,7 @@ class TokenAnalyzer:
         # 创建一个列表来保存结果
         results = []
         
-        # 遍历数据，找到最大的 10 个 token_counts 的 obj
+        # 遍历数据，找到最token_counts > 0 的  token_counts 的 obj
         top_objs = []
         for obj in self.data:
             token_counts = self.count_list_occurrences(obj, keywords)
@@ -78,16 +79,18 @@ class TokenAnalyzer:
         
         # 根据 token_counts 进行排序，获取最大的 50 个对象
         sorted_objs = sorted(top_objs, key=lambda x: x[1], reverse=True)[:50]
-        
+
+        # 计算匹配率权重
+        max_token_counts = max([count for _, count in sorted_objs])
+        weights = [math.exp(token_counts / max_token_counts) for _, token_counts in sorted_objs]
+        total_weight = sum(weights)
+        normalized_weights = [weight / total_weight for weight in weights]
+
         # 对最大的 50 个对象进行 calculate_match_rate 并添加到结果列表
-        for obj, token_counts in sorted_objs:
+        for (obj, token_counts), weight in zip(sorted_objs, normalized_weights):
             match_rate = self.calculate_match_rate(keywords, obj['Summary'])
-            # if match_rate == 0:
-            #     continue
-            # 归一化处理 token_counts
-            normalized_token_counts = token_counts / max([count for _, count in sorted_objs])
-            # 综合考虑 match_rate 和 normalized_token_counts，并确保最终的 matchRate 不超过 100%
-            match_rate = min(1.0, match_rate * 0.6 + normalized_token_counts * 0.4)
+            # 综合考虑 match_rate 和 token_counts 权重，并确保最终的 matchRate 不超过 100%
+            match_rate = min(1.0, match_rate*weight*100) if match_rate > 0 else min(1.0, weight*4.5)
             
             result = {
                 'title': obj["Second headline"],
