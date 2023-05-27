@@ -12,23 +12,27 @@ class TokenAnalyzer:
         with open(file_path, 'r', encoding='utf-8') as file:
             self.data = json.load(file)
 
+    def count_list_occurrences(self, obj, lst):
+        token_counts = 0
+        # 遍历列表中的每个元素
+        for token in lst:
+            token = token.lower()  # 将关键词转换为小写
+            token_counts += self.count_token_occurrences(obj, token)
+        return token_counts
+
     def count_token_occurrences(self, obj, token):
         top_tokens = obj["Top Tokens"]
+        # token = token.lower()  # 将关键词转换为小写
         token_counts = 0
 
         # 遍历 top_tokens 中的每个字段
         for category, sub_tokens in top_tokens.items():
             # 如果该字段是一个字典，则继续查找嵌套的子字段
             if isinstance(sub_tokens, dict):
-                token_counts += sub_tokens.get(token, 0)
+                for sub_token, count in sub_tokens.items():
+                    if sub_token.lower() == token:  # 将子字段的键转换为小写进行比较
+                        token_counts += count
 
-        return token_counts
-
-    def count_list_occurrences(self, obj, lst):
-        token_counts = 0
-        # 遍历列表中的每个元素
-        for token in lst:
-            token_counts += self.count_token_occurrences(obj, token)
         return token_counts
 
     def extract_keywords(self, sentence):
@@ -37,6 +41,9 @@ class TokenAnalyzer:
         return keywords
 
     def calculate_match_rate(self, keywords, summary):
+        summary = summary.lower()  # 将摘要转换为小写
+        keywords = [keyword.lower() for keyword in keywords]  # 将关键词列表转换为小写
+
         summary_keywords = self.extract_keywords(summary)
         summary_keywords = ' '.join(summary_keywords)
         # 将关键词组合成一个列表
@@ -55,32 +62,44 @@ class TokenAnalyzer:
     def get_results(self, query):
         if not self.data:
             raise ValueError("Data not loaded. Please load the data using 'load_data' method.")
-
+        
         keywords = self.extract_keywords(query)
-        print("关键词：", keywords)
-
+        print(keywords)
+        
         # 创建一个列表来保存结果
         results = []
-
+        
+        # 遍历数据，找到最大的 10 个 token_counts 的 obj
+        top_objs = []
         for obj in self.data:
-            match_rate = self.calculate_match_rate(keywords, obj['Summary'])
             token_counts = self.count_list_occurrences(obj, keywords)
             if token_counts > 0:
-                results.append((obj, token_counts, match_rate))
+                top_objs.append((obj, token_counts))
+        
+        # 根据 token_counts 进行排序，获取最大的 50 个对象
+        sorted_objs = sorted(top_objs, key=lambda x: x[1], reverse=True)[:50]
+        
+        # 对最大的 50 个对象进行 calculate_match_rate 并添加到结果列表
+        for obj, token_counts in sorted_objs:
+            match_rate = self.calculate_match_rate(keywords, obj['Summary'])
+            # if match_rate == 0:
+            #     continue
+            # 归一化处理 token_counts
+            normalized_token_counts = token_counts / max([count for _, count in sorted_objs])
+            # 综合考虑 match_rate 和 normalized_token_counts，并确保最终的 matchRate 不超过 100%
+            match_rate = min(1.0, match_rate * 0.6 + normalized_token_counts * 0.4)
+            
+            result = {
+                'title': obj["Second headline"],
+                'summary': obj['Summary'],
+                'matchRate': "{:.2%}".format(match_rate),
+                'url': obj['Url']
+            }
+            results.append(result)
+        
+        # 根据 matchRate 进行排序，获取前三个结果
+        sorted_results = sorted(results, key=lambda x: float(x['matchRate'].rstrip('%')), reverse=True)[:3]
+        
+        return sorted_results
 
-        # 根据 token_counts 进行排序，获取前十个结果
-        sorted_results = sorted(results, key=lambda x: x[1], reverse=True)[:10]
 
-        # 打印结果
-        for result in sorted_results:
-            obj, token_counts, match_rate = result
-            print("Token Counts:", token_counts, end=" \t\t")
-            print("Match Rate:", match_rate)
-            print(obj["Url"])  # 输出匹配到的对象信息
-
-# 创建 TokenAnalyzer 实例
-analyzer = TokenAnalyzer()
-# 加载数据
-analyzer.load_data('res.json')
-# 获取结果
-analyzer.get_results("Russia Ukraine")

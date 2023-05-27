@@ -9,7 +9,16 @@
   margin: 20px auto;
   display: block;
 }
-
+.no-results {
+  font-family: "Roboto", sans-serif;
+  font-size: 17px;
+  color: #999;
+  text-align: center;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .results {
   position: fixed;
   top: 33.5%;
@@ -64,7 +73,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   /* max-height: 40px; */
 }
@@ -185,3 +194,4 @@
     background-position: 0% 50%;
   }
 }
+

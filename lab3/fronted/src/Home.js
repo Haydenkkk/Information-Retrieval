@@ -6,9 +6,12 @@ import SearchIcon from "@mui/icons-material/Search";
 const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSearchCompleted, setIsSearchCompleted] = useState(false);
 
   const handleSearch = async () => {
     try {
+      setIsLoading(true); // 设置为正在加载状态
       const response = await fetch("http://localhost:5000/", {
         method: "POST",
         headers: {
@@ -21,8 +24,12 @@ const Home = () => {
       }
       const results = await response.json(); // 解析返回的JSON结果
       setSearchResults(results); // 更新搜索结果状态
+      setIsLoading(false); // 设置为加载完成状态
+      setIsSearchCompleted(true); // 设置搜索完成状态
     } catch (error) {
       console.log("Error:", error);
+      setIsLoading(false); // 设置为加载完成状态
+      setIsSearchCompleted(true); // 设置搜索完成状态
     }
   };
 
@@ -55,7 +62,6 @@ const Home = () => {
     <div className="container">
       <div className="system-name">Information Retrieval System</div>
       <div className="searchbar">
-        {/* <img src={Searchpng} className="mg" onClick={handleSearch} /> */}
         <IconButton
           type="button"
           sx={{ p: "10px" }}
@@ -72,7 +78,7 @@ const Home = () => {
           placeholder="Search the information you want or type a URL"
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          autocomplete="off"
+          autoComplete="off"
           name="keyword"
           style={{
             fontSize: "16px",
@@ -81,7 +87,13 @@ const Home = () => {
           }}
         />
       </div>
-      {searchResults.length > 0 && (
+      {isLoading && <div className="no-results">Loading...</div>}
+      {!isLoading && searchResults.length === 0 && isSearchCompleted && (
+        <div className="no-results">
+          Sorry, we could not find the relevant articles for your query...
+        </div>
+      )}
+      {!isLoading && searchResults.length > 0 && (
         <div className="results">{renderSearchResults()}</div>
       )}
     </div>
