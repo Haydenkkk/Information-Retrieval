@@ -5,9 +5,9 @@ from Luhn import TextSummarizer
 
 # 加载spaCy模型
 nlp = spacy.load("en_core_web_sm")
-
+cnt =0
 # 打开JSON文件
-with open('CNN_Articels_clean.json', 'r', encoding='utf-8') as file:
+with open('CNN_Articels_clean_2.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 summarizer = TextSummarizer(top_n_words=3, distance=2, number_sentences=1)
@@ -56,8 +56,11 @@ for obj in data:
     obj["Summary"] = summarizer.summarize(text)
     # 将处理结果添加到JSON对象中
     obj["Top Tokens"] = top_tokens
-    print(f"已处理: {obj['Headline']}")
+    print(f"已处理: {obj['Second headline']}")
+    cnt += 1
     # print(f"Top Tokens: {top_tokens}")
 # 将更新后的JSON保存到文件
-with open('res.json', 'w', encoding='utf-8') as file:
+with open('res_2.json', 'w', encoding='utf-8') as file:
     json.dump(data, file, indent=4)
+
+print(f"共处理{cnt}个对象")
