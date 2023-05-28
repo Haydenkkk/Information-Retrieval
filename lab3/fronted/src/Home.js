@@ -12,7 +12,7 @@ const Home = () => {
   const handleSearch = async () => {
     try {
       setIsLoading(true); // 设置为正在加载状态
-      const response = await fetch("http://localhost:5000/", {
+      const response = await fetch("http://10.28.147.101:5000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,17 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="system-name">Information Retrieval System</div>
+       <div className="system-name">
+      <p>
+        <span id="n">Bei</span>
+        <span id="e">jing</span>
+        <span id="o">Off</span>
+        <span id="n2">line</span>
+      </p>
+      </div>
+      {/* <div className="system-name">
+        Beijing offline
+      </div> */}
       <div className="searchbar">
         <IconButton
           type="button"

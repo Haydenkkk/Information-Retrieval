@@ -1,9 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Google+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Futura&display=swap');
-/* body{
-  background-image: url('images/genshin.jpg');
-} */
+@import url('https://fonts.googleapis.com/css2?family=Warnes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+:root {
+  --color : #42fff6
+}
+body{
+  background-image: url('images/cyber.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-position: center center; */
+}
 .container {
   position: relative;
 }
@@ -33,29 +41,27 @@
 }
 
 .result-card {
-  /* background-color: #f8f8f8; */
-  box-shadow: 1px 2px 4px rgba(0.1, 0.1, 0.1, 0.1);
-  /* border: 1px solid #ddd; */
-  border-radius: 5px;
-  padding: 10px;
+  box-shadow: 1px 2px 4px rgba(0.2, 0.2, 0.2, 0.3);
+  border-radius: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-
-  text-decoration: none; /* 移除链接的下划线样式 */
-  color: #333; /* 设置链接文字颜色 */
-  display: flex; /* 使用 Flex 布局 */
-  flex-direction: column; /* 垂直布局，标题和匹配率会垂直排列 */
-  align-items: flex-start; /* 左对齐标题和匹配率 */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: brightness(120%) blur(5px);
+  text-decoration: none;
+  color:  rgb(153, 153, 153);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
   animation-name: fadeInWords;
   animation-duration: 1s;
   animation-fill-mode: both;
+  transition: box-shadow 0.5s ease, transform 0.3s ease;
 }
 
 .result-card:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* 悬停时的阴影效果 */
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-  /* background-color: rgb(200, 210, 209);  */
+  box-shadow: 0 0 15px #42fff6, 0 0 30px #42fff6;
+  transform: scale(1.05);
 }
 
 .result-title {
@@ -76,7 +82,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   /* max-height: 40px; */
 }
@@ -136,6 +142,7 @@
   animation-fill-mode: both;
 }
 #search {
+  background-color: white;
   width: 450px;
   height: 40px;
   border: none;
@@ -147,6 +154,7 @@
 .searchbar {
   font-family: "Roboto", sans-serif;
   position: fixed;
+  background-color: white;
   top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -171,20 +179,21 @@
 
 .system-name {
   letter-spacing: 1.5px;
-  font-family: "Futura", sans-serif;
+  cursor: pointer;
+  font-family: 'Dancing Script', 'Warnes', cursive;
   font-weight: 500;
   position: fixed;
   top: 12%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 35px;
+  font-size: 55px;
   text-align: center;
   margin-bottom: 20px;
-  background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);
+  /* background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);
   background-size: 800% 800%;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  animation: gradientAnimation 10s ease infinite;
+  animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite; */
 }
 
 @keyframes gradientAnimation {
@@ -198,4 +207,46 @@
     background-position: 0% 50%;
   }
 }
+p {
+  margin: 0%;
+  background: none;
+  color: rgb(128, 128, 128);
+  font-family: 'Dancing Script', 'Warnes', cursive;
+  font-size: 65px;
+  cursor: pointer;
+}
 
+p:hover span {
+  animation: flicker 1s linear forwards;
+}
+
+p:hover #e {
+  animation-delay: .2s;
+}
+
+p:hover #o {
+  animation-delay: .4s;
+}
+
+p:hover #n2 {
+  animation-delay: .6s;
+}
+
+@keyframes flicker {
+  0% {
+    color: #333;
+  }
+  5%, 15%, 25%, 30%, 100% {
+    color: #fff;
+    text-shadow: 
+      0px 0px 5px var(--color),
+      0px 0px 10px var(--color),
+      0px 0px 20px var(--color),
+      0px 0px 50px var(--color);
+      
+  }
+  10%, 20% {
+    color: #333;
+    text-shadow: none;
+  }
+}
