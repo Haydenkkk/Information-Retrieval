@@ -1,6 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Google+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Futura&display=swap');
+/* body{
+  background-image: url('images/genshin.jpg');
+} */
 .container {
   position: relative;
 }
@@ -167,13 +170,14 @@
 }
 
 .system-name {
-  letter-spacing: 1px;
-  font-family: "Google Sans", sans-serif;
+  letter-spacing: 1.5px;
+  font-family: "Futura", sans-serif;
+  font-weight: 500;
   position: fixed;
   top: 12%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 32px;
+  font-size: 35px;
   text-align: center;
   margin-bottom: 20px;
   background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);

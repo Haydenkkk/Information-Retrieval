@@ -85,9 +85,18 @@ class TextSummarizer:
         notes_sentences = self.calculate_sentence_score(formatted_sentences, top_n_words)
         # 选取得分最高的句子作为摘要
         best_sentences = heapq.nlargest(self.number_sentences, notes_sentences)
-        # 获取摘要的原始句子
-        best_sentences = [original_sentences[i] for (note, i) in best_sentences]
-        return best_sentences[0]
+        try:
+            # 获取摘要的原始句子
+            best_sentence = original_sentences[best_sentences[0][1]]
+        except IndexError:
+            # 如果索引错误，表示无法获取摘要句子，返回默认的错误信息
+            best_sentence = "Failed to generate summary"
+        
+        return best_sentence
+    
+        # # 获取摘要的原始句子
+        # best_sentences = [original_sentences[i] for (note, i) in best_sentences]
+        # return best_sentences[0]
 
 
 

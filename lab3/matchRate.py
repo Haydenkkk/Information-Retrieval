@@ -77,8 +77,8 @@ class TokenAnalyzer:
             if token_counts > 0:
                 top_objs.append((obj, token_counts))
         
-        # 根据 token_counts 进行排序，获取最大的 50 个对象
-        sorted_objs = sorted(top_objs, key=lambda x: x[1], reverse=True)[:50]
+        # 根据 token_counts 进行排序，获取最大的 100 个对象
+        sorted_objs = sorted(top_objs, key=lambda x: x[1], reverse=True)[:100]
         if len(sorted_objs) <= 3:
             for obj, token_counts in sorted_objs:
                 result = {
@@ -95,11 +95,11 @@ class TokenAnalyzer:
         total_weight = sum(weights)
         normalized_weights = [weight / total_weight for weight in weights]
 
-        # 对最大的 50 个对象进行 calculate_match_rate 并添加到结果列表
+        # 对最大的 100 个对象进行 calculate_match_rate 并添加到结果列表
         for (obj, token_counts), weight in zip(sorted_objs, normalized_weights):
             match_rate = self.calculate_match_rate(keywords, obj['Summary'])
             # 综合考虑 match_rate 和 token_counts 权重，并确保最终的 matchRate 不超过 100%
-            match_rate = min(1.0, match_rate*weight*100) if match_rate > 0 else min(1.0, weight*3.5)
+            match_rate = min(1.0, match_rate*weight*163) if match_rate > 0 else min(1.0, weight*3.5)
             
             result = {
                 'title': obj["Second headline"],
@@ -113,5 +113,4 @@ class TokenAnalyzer:
         sorted_results = sorted(results, key=lambda x: float(x['matchRate'].rstrip('%')), reverse=True)[:3]
         
         return sorted_results
-
 

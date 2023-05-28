@@ -6,7 +6,7 @@ from matchRate import TokenAnalyzer
 app = Flask(__name__)
 CORS(app)
 analyzer = TokenAnalyzer()
-analyzer.load_data('res_2.json')
+analyzer.load_data('res_3.json')
 
 @app.route('/', methods=['POST'])
 def info():
