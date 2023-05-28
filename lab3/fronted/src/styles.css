@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Futura&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Warnes&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
 :root {
   --color : #42fff6
 }
@@ -21,14 +22,19 @@ body{
   display: block;
 }
 .no-results {
-  font-family: "Roboto", sans-serif;
-  font-size: 17px;
+  font-family: "Google Sans", sans-serif;
+  font-size: 18px;
   color: #999;
   text-align: center;
   position: fixed;
   top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background: linear-gradient(45deg, #00ffd5, #00ffff, #0084ff, #00ff77);
+  background-size: 800% 800%;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite;
 }
 .results {
   position: fixed;
@@ -45,8 +51,8 @@ body{
   border-radius: 10px;
   padding: 12px;
   margin-bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: brightness(120%) blur(5px);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: brightness(120%) blur(30px);
   text-decoration: none;
   color:  rgb(153, 153, 153);
   display: flex;
