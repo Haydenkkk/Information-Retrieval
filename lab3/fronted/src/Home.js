@@ -32,8 +32,7 @@ const Home = () => {
       setIsSearchCompleted(true); // 设置搜索完成状态
       if (results.length === 0) {
         setIsSearching(false);
-      }
-      else {
+      } else {
         setIsSearching(true);
       }
     } catch (error) {
@@ -74,7 +73,13 @@ const Home = () => {
       <div className="system-name">
         <p
           className={`${
-            isHovered ? "hover-effect" : isSearching ? "hover-effect" : ""
+            isHovered
+              ? "hover-effect"
+              : isLoading
+              ? "hover-effect"
+              : isSearching
+              ? "hover-effect"
+              : ""
           }`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
