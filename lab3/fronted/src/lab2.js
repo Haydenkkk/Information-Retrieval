@@ -3,7 +3,7 @@ import "./styles.css";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
-const Home = () => {
+const Lab2 = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +16,7 @@ const Home = () => {
       setIsSearching(false);
       setIsLoading(true); // 设置为正在加载状态
       // setIsSearching(true);
-      const response = await fetch("http://10.28.147.101:5000/", {
+      const response = await fetch("http://10.28.147.101:5000/lab2", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,4 +129,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Lab2;

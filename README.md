@@ -1,2 +1,7 @@
+    pip install requirements.txt
+    run sever.py
+    cd ./lab3/fronted
+    npm install
+    npm start
 
-水
+![](lab3/fronted/src/images/linhua.jpg)
