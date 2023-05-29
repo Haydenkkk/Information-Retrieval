@@ -1,20 +1,79 @@
-from bs4 import BeautifulSoup
-import requests
-import re
-import selenium
-from selenium import webdriver
 import os
+import requests
+import jieba
 import time
+from bs4 import BeautifulSoup
+import json
 headers = {
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36', 
-    "Cookie": 'first_visit_datetime_pc=2023-04-03+20:05:21; p_ab_id=6; p_ab_id_2=4; p_ab_d_id=1639917103; yuid_b=J4OFEVE; _fbp=fb.1.1680519923390.2095052467; PHPSESSID=71354849_ImIU8T760AzZaIuigmucF7bfvSy0Hjg8; device_token=a7eaec54414b62037030260d34dff8a1; privacy_policy_agreement=5; c_type=22; privacy_policy_notification=0; a_type=0; b_type=0; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; p_b_type=1; tag_view_ranking=0xsDLqCEW6~Lt-oEicbBr~r_Jjn6Ua2V~HY55MqmzzQ~uvBGOtCzqF~_vCZ2RLsY2~5oPIfUbtd6~68luzZqFS0~-7RnTas_L3~jk9IzfjZ6n~tLEo7GtjcE~iRFlj3p1GG~ctjJwbmssT~uW5495Nhg-~O4zMr8hRGP~EYYBFpYNJp~98FF78f4J0~bYn3xr0RaN~zqe8dqUBGC~ckoqr0bPHv~5oHuFQXax5~rOnsP2Q5UN~_EOd7bsGyl~6n5sWl9nNm~tJaVY8ie4B~qG6ZMBxhkE~QaiOjmwQnI~ZTBAtZUDtQ~zaEtI28sYq~qXzcci65nj~TWrozby2UO~ncUG68iRRJ~PwDMGzD6xn~-LwvviyTfq~faHcYIP1U0~Ie2c51_4Sp~uK-xlAOB9q~0r_Dr-UWZa~wmxKAirQ_H~vrf3o5XcIa~pNtQi6YIt-~NGpDowiVmM~gCB7z_XWkp~vzTU7cI86f~azESOjmQSV~zyKU3Q5L4C~nIjJS15KLN~qkC-JF_MXY~4QveACRzn3~cnS1oIcWKc~aKhT3n4RHZ~HZk-7ZdqP6~w8ffkPoJ_S~HBlflqJjBZ~T40wdiG5yy~CEYqcod4iE~D4hLr_YmAD~_C6hhzFNWQ~gnmsbf1SSR~LX3_ayvQX4~r6jbYbwfYK~OgLi_QXWK2~fW51ff7RoH~DDIrgPa5XM~eVxus64GZU~KhhTM1zuNN~rI4MmDPPTp~FdBF-J6Pun~PnFukw__z_~LiGJo4dg8B~BtH0Tl8o51; _gid=GA1.2.812029370.1680713774; __cf_bm=jJRIu1fs568CGkJIsX1_hJBVI.9EAvWTv.DMD.20ExE-1680714712-0-AdhsU2aHwsmfFW8X25KWbCE4Yclwr8ddzk0ynWxWq3q4Atv1jx+4NN8YYAeC0zyxnEz3UC8QgiQLrZY68YpSPyj0BmhnfxTeZiF3HdTnqWcpTG8h6aXRsJ+AtrDMnGU7Nmi9hB55m3Q2bn1NNTANGXYWFgVkd0JtHxC6mK8vBnuw0X6gObB0jC4XYQbld0nt8w==; _ga=GA1.1.900687260.1680519923; _ga_75BBYNYN9J=GS1.1.1680713769.5.1.1680715263.0.0.0',
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "accept-encoding": "gzip, deflate, br",
-    "accept-language": "zh-CN,zh;q=0.9",
-    "Cache-Control": "max-age=0",
-    "Connection": "keep-alive",
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36 Edg/113.0.1774.57'
 }
 
+chapters = []  # 存储所有章节的数据
+count = 1
+
+def crawl(path, url, depth=1):
+    global count
+    if not os.path.exists(path):
+        os.mkdir(path)
+    if depth == 0:
+        return
+
+    print('-' * 30)
+    print('Crawling:', url)
+    if(count % 100 == 0): time.sleep(5)
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        print('Status code:', response.status_code)
+        print('Content type:', response.headers['Content-Type'])
+        print('Encoding:', response.encoding)
+        print('-' * 30)
+        text = response.text.encode(response.encoding, errors='ignore').decode('gb2312', errors='ignore')
+        soup = BeautifulSoup(text, 'lxml')
+
+        chapter_data = {}  # 存储当前章节的数据
+
+        # 获取标题
+        main_div = soup.find('div', {'id': 'main'})
+        title_element = main_div.find('h1') if main_div else None
+        title = title_element.text.strip() if title_element else ''
+        chapter_data['headline'] = title
+
+        # 获取URL
+        chapter_data['url'] = url
+
+        # 获取内容
+        content = soup.get_text().strip()
+        chapter_data['content'] = content
+        chapter_data['content_seg'] = jieba.lcut(content)
+
+        # 将当前章节的数据添加到列表中
+        chapters.append(chapter_data)
+
+        # 递归爬取下一级章节
+        for link in soup.find_all('dd'):
+            for a in link.find_all('a'):
+                if a.has_attr('href'):
+                    if a['href'].startswith('http'):
+                        crawl(path, a['href'], depth-1)
+                    else:
+                        crawl(path, url + a['href'], depth-1)
+
+        if len(content):
+            print('Text length:', len(content))
+            with open(os.path.join(path, 'chapter-'+str(count)+'.json'), 'w+', encoding='utf-8') as f:
+                json.dump(chapter_data, f, ensure_ascii=False, indent=4)
+                print('Saved to:', os.path.join(path, 'chapter-'+str(count)+'.json'))
+                count += 1
+    else:
+        print('Error:', response.status_code)
+
+
+
+crawl('../doucments/DouLuo_Json', 'https://www.qb5.tw/book_518/', depth=2)
+
+# 将所有章节的数据保存到一个JSON文件中
+# with open('../doucments/DouLuo_Json/douluo.json', 'w', encoding='utf-8') as f:
+#     json_str = json.dumps(chapters, ensure_ascii=False, indent=4)
 
 
  
