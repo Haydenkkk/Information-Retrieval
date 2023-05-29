@@ -1,7 +1,7 @@
 import os
 import math
 from collections import defaultdict
-from cut import cut_sentence
+from .cut import cut_sentence
 import json
 
 class RetrievalModel: 
@@ -20,7 +20,8 @@ class RetrievalModel:
 
 
     def load_stop_words(self): # 载入停用词表
-        with open('stop_words.txt', 'r', encoding='utf-8') as f: 
+        file_path = os.path.join(os.path.dirname(__file__), 'stop_words.txt')
+        with open(file_path, 'r', encoding='utf-8') as f: 
             for line in f: 
                 self.stop_words.add(line.strip())
 
@@ -90,7 +91,7 @@ class RetrievalModel:
         sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True) # 对第二个元素排序
         return sorted_scores
 
-    def search(self, query, num_results=10): # 查询
+    def search(self, query, num_results=5): # 查询
         query = cut_sentence(query) # 对查询分词
         words_counter = defaultdict(dict)
         print('匹配分词:', query)
@@ -102,9 +103,9 @@ class RetrievalModel:
             for doc_id, score in results:
                 record = {'header': [], 'url': [], 'score': []}
                 print(f.name)
-                record['header'] = data[doc_id]["headline"]
+                record['title'] = data[doc_id]["headline"]
                 record['url'] = data[doc_id]["url"]
-                record['score'] = score
+                record['matchRate'] = score
                 ret.append(record)
                 print('Document:', self.docs[doc_id])
                 print('Score:', score)
@@ -115,7 +116,7 @@ class RetrievalModel:
         return ret
 
 
-model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
+# model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
 
-#test
-print(model.search('唐三成为海神', 5)) # 查询
+# #test
+# print(model.search('唐三成为海神', 5)) # 查询
