@@ -1,7 +1,7 @@
 import os
 import math
 from collections import defaultdict
-import cut
+from cut import cut_sentence
 import json
 
 class RetrievalModel: 
@@ -14,7 +14,8 @@ class RetrievalModel:
         self.stop_words = set() # stop_words 用于存储停用词表
         self.load_stop_words() # 载入停用词表
         # self.build_index() # 建立倒排索引
-        self.build_index_with_json() # 建立倒排索引 using json files
+        # self.build_index_with_json() # 建立倒排索引 using json files
+        self.build_index_with_1json() # 建立倒排索引 using 1 json file
         self.compute_lengths() # 计算每个文档的长度
 
 
@@ -29,6 +30,16 @@ class RetrievalModel:
             with open(os.path.join(self.path, file), 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 tokens = data["content_seg"]
+                for token in tokens: 
+                    if token not in self.stop_words:
+                        self.index[token][doc_id] = self.index[token].get(doc_id, 0) + 1
+
+    def build_index_with_1json(self): # 建立倒排索引
+        with open(os.path.join(self.path, 'douluo.json'), 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            for doc_id in range(len(data)):
+                self.docs.append(data[doc_id]["headline"])
+                tokens = data[doc_id]["content_seg"]
                 for token in tokens: 
                     if token not in self.stop_words:
                         self.index[token][doc_id] = self.index[token].get(doc_id, 0) + 1
@@ -80,25 +91,31 @@ class RetrievalModel:
         return sorted_scores
 
     def search(self, query, num_results=10): # 查询
-        query = cut.cut_sentence(query) # 对查询分词
+        query = cut_sentence(query) # 对查询分词
         words_counter = defaultdict(dict)
         print('匹配分词:', query)
         results = self.calculate_score(query, words_counter)[:num_results] # num_results个文档
-        ret = []
-        for doc_id, score in results:
-            print('Document:', self.docs[doc_id])
-            ret += [self.docs[doc_id]]
-            print('Score:', score)
-            print(words_counter[doc_id])
+
+        with open(os.path.join(self.path, 'douluo.json'), 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            ret = []
+            for doc_id, score in results:
+                record = {'header': [], 'url': [], 'score': []}
+                print(f.name)
+                record['header'] = data[doc_id]["headline"]
+                record['url'] = data[doc_id]["url"]
+                record['score'] = score
+                ret.append(record)
+                print('Document:', self.docs[doc_id])
+                print('Score:', score)
+                print(words_counter[doc_id])
             # with open(os.path.join(self.path, self.docs[doc_id]), 'r', encoding='utf-8') as f: # 打开文档
             #     print('Content:', f.readline().strip()) # 打印文档内容的第一行
-            print('---' * 20)
+                print('---' * 20)
         return ret
-        
-
 
 
 model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
 
 #test
-print(model.search('唐三成为海神', 20)) # 查询
+print(model.search('唐三成为海神', 5)) # 查询
