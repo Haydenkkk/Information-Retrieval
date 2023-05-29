@@ -1,2 +1,13 @@
+`
+pip install requirements.txt
+`
 
-水
+`
+cd ./lab3/fronted
+`
+
+`
+npm start & run sever.py
+`
+
+![](lab3/fronted/src/images/linhua.jpg)
