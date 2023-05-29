@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Google+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Futura&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Warnes&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Futura&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Warnes&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 
 :root {
-  --color : #42fff6
+  --color: #42fff6;
 }
-body{
-  background-image: url('images/cyber.jpg');
+body {
+  background-image: url("images/cyber.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   /* background-position: center center; */
@@ -27,18 +27,19 @@ body{
   color: #999;
   text-align: center;
   position: fixed;
-  top: 35%;
+  top: 27%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(45deg, #00ffd5, #00ffff, #0084ff, #00ff77);
+  /* background: linear-gradient(45deg, #00ffd5, #00ffff, #0084ff, #00ff77);
   background-size: 800% 800%;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite;
+  animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite; */
 }
+
 .results {
   position: fixed;
-  top: 33.5%;
+  top: 30%;
   left: 50%;
   transform: translateX(-50%);
   width: 600px;
@@ -54,7 +55,7 @@ body{
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: brightness(120%) blur(30px);
   text-decoration: none;
-  color:  rgb(153, 153, 153);
+  color: rgb(153, 153, 153);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -161,7 +162,7 @@ body{
   font-family: "Roboto", sans-serif;
   position: fixed;
   background-color: white;
-  top: 25%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
@@ -171,7 +172,7 @@ body{
   height: 42px;
   box-shadow: 0px 0px 5px rgb(212, 212, 212);
   margin: 0 auto;
-} 
+}
 .mg {
   margin-right: 10px;
   height: 40px;
@@ -186,20 +187,15 @@ body{
 .system-name {
   letter-spacing: 1.5px;
   cursor: pointer;
-  font-family: 'Dancing Script', 'Warnes', cursive;
+  font-family: "Dancing Script", "Warnes", cursive;
   font-weight: 500;
   position: fixed;
-  top: 12%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 55px;
   text-align: center;
   margin-bottom: 20px;
-  /* background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);
-  background-size: 800% 800%;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite; */
 }
 
 @keyframes gradientAnimation {
@@ -217,41 +213,58 @@ p {
   margin: 0%;
   background: none;
   color: rgb(128, 128, 128);
-  font-family: 'Dancing Script', 'Warnes', cursive;
+  font-family: "Dancing Script", "Warnes", cursive;
   font-size: 65px;
   cursor: pointer;
 }
+.hover-effect span {
+  animation: flicker 1s linear forwards;
+}
+
+.hover-effect #e {
+  animation-delay: 0.0s;
+}
+
+.hover-effect #o {
+  animation-delay: 0.0s;
+}
+
+.hover-effect #n2 {
+  animation-delay: 0.0s;
+}
+
 
 p:hover span {
   animation: flicker 1s linear forwards;
 }
 
 p:hover #e {
-  animation-delay: .2s;
+  animation-delay: 0.2s;
 }
 
 p:hover #o {
-  animation-delay: .4s;
+  animation-delay: 0.4s;
 }
 
 p:hover #n2 {
-  animation-delay: .6s;
+  animation-delay: 0.6s;
 }
 
 @keyframes flicker {
   0% {
     color: #333;
   }
-  5%, 15%, 25%, 30%, 100% {
+  5%,
+  15%,
+  25%,
+  30%,
+  100% {
     color: #fff;
-    text-shadow: 
-      0px 0px 5px var(--color),
-      0px 0px 10px var(--color),
-      0px 0px 20px var(--color),
-      0px 0px 50px var(--color);
-      
+    text-shadow: 0px 0px 5px var(--color), 0px 0px 10px var(--color),
+      0px 0px 20px var(--color), 0px 0px 50px var(--color);
   }
-  10%, 20% {
+  10%,
+  20% {
     color: #333;
     text-shadow: none;
   }

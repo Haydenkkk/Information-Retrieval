@@ -8,10 +8,14 @@ const Home = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleSearch = async () => {
     try {
+      setIsSearching(false);
       setIsLoading(true); // 设置为正在加载状态
+      // setIsSearching(true);
       const response = await fetch("http://10.28.147.101:5000/", {
         method: "POST",
         headers: {
@@ -26,10 +30,17 @@ const Home = () => {
       setSearchResults(results); // 更新搜索结果状态
       setIsLoading(false); // 设置为加载完成状态
       setIsSearchCompleted(true); // 设置搜索完成状态
+      if (results.length === 0) {
+        setIsSearching(false);
+      }
+      else {
+        setIsSearching(true);
+      }
     } catch (error) {
       console.log("Error:", error);
       setIsLoading(false); // 设置为加载完成状态
       setIsSearchCompleted(true); // 设置搜索完成状态
+      setIsSearching(false);
     }
   };
 
@@ -60,17 +71,20 @@ const Home = () => {
 
   return (
     <div className="container">
-       <div className="system-name">
-      <p>
-        <span id="n">Bei</span>
-        <span id="e">jing</span>
-        <span id="o">Off</span>
-        <span id="n2">line</span>
-      </p>
+      <div className="system-name">
+        <p
+          className={`${
+            isHovered ? "hover-effect" : isSearching ? "hover-effect" : ""
+          }`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <span id="n">Bei</span>
+          <span id="e">jing</span>
+          <span id="o">Off</span>
+          <span id="n2">line</span>
+        </p>
       </div>
-      {/* <div className="system-name">
-        Beijing offline
-      </div> */}
       <div className="searchbar">
         <IconButton
           type="button"
