@@ -61,23 +61,27 @@ body {
 }
 @-webkit-keyframes shining {
   from {
-      text-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue, 0 0 40px skyblue, 0 0 50px skyblue, 0 0 60px skyblue;
+    text-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue,
+      0 0 40px skyblue, 0 0 50px skyblue, 0 0 60px skyblue;
   }
   to {
-      text-shadow: 0 0 5px lightblue, 0 0 10px lightblue, 0 0 15px lightblue, 0 0 20px skyblue, 0 0 25px skyblue, 0 0 30px skyblue;
+    text-shadow: 0 0 5px lightblue, 0 0 10px lightblue, 0 0 15px lightblue,
+      0 0 20px skyblue, 0 0 25px skyblue, 0 0 30px skyblue;
   }
 }
 
 .feedback-buttons {
+  position: relative;
   display: flex;
   justify-content: space-between;
+  left: 70px;
 }
 
 .feedback-buttons button {
   /* border-radius: 12px; */
   margin-left: 10px;
   padding: 10px 15px;
-  font-size: 14px;
+  font-size: 15px;
   background-color: transparent;
   color: #fff;
   border: none;

@@ -141,8 +141,8 @@ const Home = () => {
         <div className="feedback-card">
           <div className="language-prompt">We have given the corresponding result according to your query.Does this result meet your expectation ?</div>
           <div className="feedback-buttons">
-            <button onClick={handleGoodFeedback}>Good</button>
-            <button onClick={handleBadFeedback}>Bad</button>
+            <button onClick={handleGoodFeedback}>Yes</button>
+            <button onClick={handleBadFeedback}>No</button>
           </div>
         </div>
       )}
