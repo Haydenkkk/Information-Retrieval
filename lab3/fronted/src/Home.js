@@ -10,10 +10,21 @@ const Home = () => {
   const [isSearchCompleted, setIsSearchCompleted] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const handleGoodFeedback = () => {
+    // Handle good feedback action here
+    setShowFeedback(false);
+  };
+
+  const handleBadFeedback = () => {
+    // Handle bad feedback action here
+    setShowFeedback(false);
+  };
 
   const handleSearch = async () => {
     try {
       setIsSearching(false);
+      setShowFeedback(false);
       setIsLoading(true); // 设置为正在加载状态
       // setIsSearching(true);
       const response = await fetch("http://10.28.147.101:5000/", {
@@ -34,6 +45,7 @@ const Home = () => {
         setIsSearching(false);
       } else {
         setIsSearching(true);
+        setShowFeedback(true);
       }
     } catch (error) {
       console.log("Error:", error);
@@ -124,6 +136,15 @@ const Home = () => {
       )}
       {!isLoading && searchResults.length > 0 && (
         <div className="results">{renderSearchResults()}</div>
+      )}
+      {showFeedback && (
+        <div className="feedback-card">
+          <div className="language-prompt">We have given the corresponding result according to your query.Does this result meet your expectation ?</div>
+          <div className="feedback-buttons">
+            <button onClick={handleGoodFeedback}>Yes</button>
+            <button onClick={handleBadFeedback}>No</button>
+          </div>
+        </div>
       )}
     </div>
   );
