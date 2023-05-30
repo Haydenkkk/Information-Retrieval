@@ -59,11 +59,11 @@ const Lab2 = () => {
         className="result-card"
       >
         <div className="result-title">{result.title}</div>
-        <div className="result-summary-container">
+        {/* <div className="result-summary-container">
           <span className="summary-label">Summary:</span>
           <span className="result-summary">{result.summary}</span>
-        </div>
-        <div className="result-match-rate">Match Rate: {result.matchRate}</div>
+        </div> */}
+        <div className="result-match-rate">Score: {result.matchRate}</div>
       </a>
     ));
   };
