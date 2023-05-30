@@ -115,7 +115,8 @@ class RetrievalModel:
         return ret
 
 
-model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
+if(__name__ == '__main__'):
+    model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
 
-#test
-print(model.search('唐三成为海神', 5)) # 查询
+    #test
+    print(model.search('唐三成为海神', 5)) # 查询
