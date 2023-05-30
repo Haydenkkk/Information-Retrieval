@@ -37,6 +37,57 @@ body {
   animation: gradientAnimation 10s ease infinite, flickerAnimation 1s linear infinite; */
 }
 
+.feedback-card {
+  position: fixed;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 330px;
+  top: 40%;
+  left: 15%;
+}
+.language-prompt {
+  background-color: transparent;
+  font-family: "Google Sans", sans-serif;
+  font-size: 15px;
+  color: #cce7f8;
+  margin-bottom: 14px;
+  -webkit-animation: shining 1s alternate infinite;
+  animation: shining 1s alternate infinite;
+}
+@-webkit-keyframes shining {
+  from {
+      text-shadow: 0 0 10px lightblue, 0 0 20px lightblue, 0 0 30px lightblue, 0 0 40px skyblue, 0 0 50px skyblue, 0 0 60px skyblue;
+  }
+  to {
+      text-shadow: 0 0 5px lightblue, 0 0 10px lightblue, 0 0 15px lightblue, 0 0 20px skyblue, 0 0 25px skyblue, 0 0 30px skyblue;
+  }
+}
+
+.feedback-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedback-buttons button {
+  /* border-radius: 12px; */
+  margin-left: 10px;
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* .feedback-buttons button:hover {
+  background-color: #555;
+} */
+
 .results {
   position: fixed;
   top: 30%;
@@ -232,7 +283,6 @@ p {
 .hover-effect #n2 {
   animation-delay: 0.5s;
 }
-
 
 p:hover span {
   animation: flicker 1s linear forwards;
