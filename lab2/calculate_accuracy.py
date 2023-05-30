@@ -2,12 +2,14 @@ import json
 import random
 import os
 from main import RetrievalModel
+from main2 import RetrievalModel2
 
 words_num = 20
 total_chapters = 0
 find_chapters = 0
 if (__name__ == '__main__'):
     model = RetrievalModel('../doucments/DouLuo_Json')
+    # model = RetrievalModel2('../doucments/DouLuo_Json')
     with open('../doucments/DouLuo_Json/douluo.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
         total_chapters = len(data)
@@ -18,19 +20,19 @@ if (__name__ == '__main__'):
             words = []
             count = 0
             while(count < words_num):
-                word = data[i]["content_seg"][random.randint(4, len(data[i]["content_seg"]) - 1)]
+                word = data[i]["content_seg"][random.randint(74, len(data[i]["content_seg"]) - 1)]
                 if(word not in model.stop_words):
                     words.append(word)
                     count = count + 1
             words = str(words)
             print("search words:", words)
-            result = model.search(words, 5)
+            result = model.search(words, 1)
             for res in result:
-                if(res["header"] == data[i]["headline"]):
+                if(res["title"] == data[i]["headline"]):
                     find_chapters = find_chapters + 1
                     print("match chapter:", data[i]["headline"])
                     print("url:", data[i]["url"])
-                    print("score:", res["score"])
+                    print("score:", res["matchRate"])
                     break
     print("===============================================")
     print("检索章节数:", total_chapters)

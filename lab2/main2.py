@@ -4,7 +4,7 @@ from collections import defaultdict
 from cut import cut_sentence
 import json
 
-class RetrievalModel: 
+class RetrievalModel2: 
     def __init__(self, path):
         self.path = path 
         self.index = defaultdict(dict)
@@ -63,10 +63,9 @@ class RetrievalModel:
                 tf = freq.get(doc_id, 0) # term frequency
                 idf = math.log(len(self.docs) / len(self.index[term])) # 计算单词的逆文档频率 = log(文档总数 / 包含该单词的文档数)
                 if tf > 0:
-                    # length += (1 + math.log(tf)) # 加1避免tf为1时tf_weight为0
-                    length += ((1 + math.log(tf)) * idf * (1 + math.log(tf)) * idf) # 先取对数再乘逆文档频率
+                    length += ((1 + math.log(tf)) * idf * (1 + math.log(tf)) * idf) # 该文档长度为文档中所有单词频率对数之和  加1避免tf为1时tf_weight为0
             self.doc_length[doc_id] = math.sqrt(length) 
-            self.total_length += math.sqrt(length) # 将文档长度加到所有文档总长度上
+            self.total_length += length # 将文档长度加到所有文档总长度上
 
     def calculate_query_vector(self, query): # 计算查询向量
         query_vector = defaultdict(int)
@@ -88,8 +87,8 @@ class RetrievalModel:
                     words_counter[doc_id][term] = tf # 记录每个文档中每个单词出线次数
                     tf_weight = 1 + math.log(tf) # 单词在文档中的权重 = 1 + log(单词频率)
                     scores[doc_id] += freq * tf_weight * idf / self.doc_length[doc_id] # 文档得分 = 查询向量中单词权重 * 文档中单词权重 * 逆文档频率 / 文档长度
-        for doc_id, score in scores.items():
-            scores[doc_id] *= self.total_length # 文档得分 = 文档得分 * 所有文档总长度
+        # for doc_id, score in scores.items():
+            # scores[doc_id] *= self.total_length # 文档得分 = 文档得分 * 所有文档总长度
         sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True) # 对第二个元素排序
         return sorted_scores
 
@@ -117,8 +116,3 @@ class RetrievalModel:
                 print('---' * 20)
         return ret
 
-
-# model = RetrievalModel('../doucments/DouLuo_Json') # 创建一个RetrievalModel对象，传入文件路径
-
-# #test
-# print(model.search('asdf', 5)) # 查询

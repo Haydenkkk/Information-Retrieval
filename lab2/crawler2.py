@@ -58,12 +58,12 @@ def crawl(path, url, depth=1):
                     else:
                         crawl(path, url + a['href'], depth-1)
 
-        # if len(content):
-        #     print('Text length:', len(content))
-        #     with open(os.path.join(path, 'chapter-'+str(count)+'.json'), 'w+', encoding='utf-8') as f:
-        #         json.dump(chapter_data, f, ensure_ascii=False, indent=4)
-        #         print('Saved to:', os.path.join(path, 'chapter-'+str(count)+'.json'))
-        #         count += 1
+        if len(content):
+            print('Text length:', len(content))
+            with open(os.path.join(path, 'chapter-'+str(count)+'.json'), 'w+', encoding='utf-8') as f:
+                json.dump(chapter_data, f, ensure_ascii=False, indent=4)
+                print('Saved to:', os.path.join(path, 'chapter-'+str(count)+'.json'))
+                count += 1
     else:
         print('Error:', response.status_code)
 
@@ -71,9 +71,6 @@ def crawl(path, url, depth=1):
 
 crawl('../doucments/DouLuo_Json', 'https://www.qb5.tw/book_518/', depth=2)
 
-# 将所有章节的数据保存到一个JSON文件中
-with open('../doucments/DouLuo_Json/douluo.json', 'w', encoding='utf-8') as f:
-    json_str = json.dumps(chapters, ensure_ascii=False, indent=4)
 
 
  
