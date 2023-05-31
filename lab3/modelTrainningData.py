@@ -82,7 +82,7 @@ text = [str(doc) for doc in nlp.pipe(brief_cleaning1, batch_size=5000)]
 #Takes 7-8 mins
 print('Time to clean up everything: {} mins'.format(round((time() - t) / 60, 2)))
 t = time()
-#Batch the data points into 5000 and run on all cores for faster preprocessing
+
 print("Starting to clean the summary data....")
 # 在summary的每个句子前添加"START"标记，并在句子末尾添加"END"标记。
 summary = ['_START_ '+ str(doc) + ' _END_' for doc in nlp.pipe(brief_cleaning2, batch_size=5000)]

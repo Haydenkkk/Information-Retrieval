@@ -148,8 +148,13 @@ latent_dim = 300
 embedding_dim = 200
 
 # 编码器
+# 创建编码器的输入层.接受一维离散化的序列数据数组作为输入
 encoder_inputs = Input(shape=(max_text_len,))
+# 创建编码器的嵌入层
+# 词汇表大小 x_voc、嵌入维度 embedding_dim 可训练标志 trainable
 enc_emb = Embedding(x_voc, embedding_dim, trainable=True)(encoder_inputs)
+# 创建编码器的LSTM层
+# 隐藏层维度 latent_dim、返回整个序列 return_sequences、返回状态 return_state、丢弃率 dropout、循环丢弃率 recurrent_dropout
 encoder_lstm1 = LSTM(latent_dim, return_sequences=True, return_state=True, dropout=0.4, recurrent_dropout=0.4)
 encoder_output1, state_h1, state_c1 = encoder_lstm1(enc_emb)
 encoder_lstm2 = LSTM(latent_dim, return_sequences=True, return_state=True, dropout=0.4, recurrent_dropout=0.4)
@@ -158,11 +163,14 @@ encoder_lstm3 = LSTM(latent_dim, return_state=True, return_sequences=True, dropo
 encoder_outputs, state_h, state_c = encoder_lstm3(encoder_output2)
 
 # 解码器
+# 序列长度可变
 decoder_inputs = Input(shape=(None,))
 dec_emb_layer = Embedding(y_voc, embedding_dim, trainable=True)
 dec_emb = dec_emb_layer(decoder_inputs)
 decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True, dropout=0.4, recurrent_dropout=0.2)
+# 进行解码操作
 decoder_outputs, decoder_fwd_state, decoder_back_state = decoder_lstm(dec_emb, initial_state=[state_h, state_c])
+# 解码器的输出层 应用于输入序列的每个时间步
 decoder_dense = TimeDistributed(Dense(y_voc, activation='softmax'))
 decoder_outputs = decoder_dense(decoder_outputs)
 
