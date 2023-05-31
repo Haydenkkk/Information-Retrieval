@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 lab3_analyzer = TokenAnalyzer()
-lab3_analyzer.load_data('./doucments/res_3.json')
+lab3_analyzer.load_data('./doucments/res_4.json')
 lab2_analyzer = RetrievalModel('./doucments/DouLuo_Json')
 
 

@@ -1,7 +1,7 @@
 import os
 import math
 from collections import defaultdict
-from cut import cut_sentence
+from .cut import cut_sentence
 import json
 
 class RetrievalModel: 

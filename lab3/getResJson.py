@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # 较小的距离值将导致较长的重要短语被视为一个连续的组，并在计算得分时得到更高的权重。较大的距离值将使得算法更加宽松，接受较远的重要单词，并降低得分权重。
     # top_n_words参数：该参数决定了在计算句子得分时要考虑的重要单词的数量。
     # 较小的值将仅考虑最频繁出现的几个单词，从而生成较为精炼的摘要。较大的值将考虑更多的重要单词，可能导致生成较长的摘要。
-    summarizer = TextSummarizer(top_n_words=3, distance=2, number_sentences=1)
+    summarizer = TextSummarizer(top_n_words=4, distance=4, number_sentences=1)
 
     # 创建线程池
     pool = ThreadPool(processes=12)
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     # 将更新后的JSON保存到文件
     # 37915
-    with open('res_3.json', 'w', encoding='utf-8') as file:
+    with open('res_4.json', 'w', encoding='utf-8') as file:
         json.dump(processed_data, file, indent=4)
 
     print(f"共处理{len(processed_data)}个对象")

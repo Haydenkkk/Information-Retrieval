@@ -46,9 +46,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 330px;
+  width: 170px;
   top: 40%;
-  left: 15%;
+  left: 10%;
 }
 .language-prompt {
   background-color: transparent;
